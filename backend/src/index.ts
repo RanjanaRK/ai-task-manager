@@ -1,12 +1,14 @@
-const express = require("express");
-const dotenv = require("dotenv");
+import express from "express";
+import dotenv from "dotenv";
+import connectDB from "./db/db";
 
+// Load environment variables
 dotenv.config();
 
+// Connect to database
+connectDB();
+
 const app = express();
-
-const PORT = process.env.PORT || 5000;
-
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -18,6 +20,8 @@ app.get("/", (req: any, res: any) => {
     message: "AI Task Manager API is running",
   });
 });
+
+const PORT = process.env.PORT || 5000;
 
 // Start server
 app.listen(PORT, () => {
