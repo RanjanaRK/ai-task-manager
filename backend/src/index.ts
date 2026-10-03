@@ -1,6 +1,8 @@
-import express from "express";
 import dotenv from "dotenv";
+import express from "express";
 import connectDB from "./db/db";
+import authRouter from "./routes/auth.routes";
+import userRouter from "./routes/user.routes";
 
 // Load environment variables
 dotenv.config();
@@ -13,6 +15,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use("/api/auth", authRouter);
+app.use("/api/users", userRouter);
+
 // Test route
 app.get("/", (req: any, res: any) => {
   res.status(200).json({
@@ -21,7 +26,7 @@ app.get("/", (req: any, res: any) => {
   });
 });
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 // Start server
 app.listen(PORT, () => {
