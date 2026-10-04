@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { UserModel } from "../models/user.model";
-import uploadAvatar from "../services/uploadToCloudinary";
+import uploadAvatar from "../services/uploadToCloudinary.service";
 
 export const editUserProfile = async (req: Request, res: Response) => {
   try {

@@ -3,6 +3,7 @@ import express from "express";
 import connectDB from "./db/db";
 import authRouter from "./routes/auth.routes";
 import userRouter from "./routes/user.routes";
+import aiRouter from "./routes/ai.routes";
 
 // Load environment variables
 dotenv.config();
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
+app.use("/api/ai", aiRouter);
 
 // Test route
 app.get("/", (req: any, res: any) => {
