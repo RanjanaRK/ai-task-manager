@@ -9,7 +9,7 @@ type Task = {
   dueDate: string;
 };
 
-const createTask = async (userId: string, data: any) => {
+const createTaskFn = async (userId: string, data: any) => {
   try {
     const task = await TaskModel.create({ ...data, userId });
 
@@ -22,7 +22,7 @@ const createTask = async (userId: string, data: any) => {
   }
 };
 
-const getTasks = async (userId: string) => {
+const getTasksFn = async (userId: string) => {
   try {
     const tasks = await TaskModel.find({ userId });
     return {
@@ -34,7 +34,7 @@ const getTasks = async (userId: string) => {
   }
 };
 
-const updateTask = async (userId: string, taskId: string, data: any) => {
+const updateTaskFn = async (userId: string, taskId: string, data: any) => {
   try {
     const task = await TaskModel.findOneAndUpdate({ userId, taskId }, data, {
       new: true,
@@ -48,7 +48,7 @@ const updateTask = async (userId: string, taskId: string, data: any) => {
   }
 };
 
-const deleteTask = async (userId: string, taskId: string) => {
+const deleteTaskFn = async (userId: string, taskId: string) => {
   try {
     const task = await TaskModel.findOneAndDelete({ userId, taskId });
     return {
@@ -60,4 +60,4 @@ const deleteTask = async (userId: string, taskId: string) => {
   }
 };
 
-export { createTask, getTasks, updateTask, deleteTask };
+export { createTaskFn, deleteTaskFn, getTasksFn, updateTaskFn };
