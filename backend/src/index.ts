@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import connectDB from "./db/db";
+import cors from "cors";
 import authRouter from "./routes/auth.routes";
 import userRouter from "./routes/user.routes";
 import aiRouter from "./routes/ai.routes";
@@ -12,6 +13,12 @@ dotenv.config();
 connectDB();
 
 const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+  }),
+);
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
