@@ -1,7 +1,7 @@
 import express from "express";
-import { editUserProfile } from "../controllers/user.controller";
-import { authCheck } from "../middlewares/auth";
-import upload from "../middlewares/upload.middleware";
+import { editUserProfile } from "../controllers/user.controller.js";
+import { authCheck } from "../middlewares/auth.js";
+import upload from "../middlewares/upload.middleware.js";
 
 const userRouter = express.Router();
 

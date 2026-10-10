@@ -1,5 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
-import tools from "../agents/tools";
+import tools from "../agents/tools.js";
 
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,

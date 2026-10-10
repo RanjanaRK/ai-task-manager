@@ -1,4 +1,4 @@
-import { TaskModel } from "../models/task.model";
+import { TaskModel } from "../models/task.model.js";
 
 const createTaskFn = async (userId: string, data: any) => {
   try {

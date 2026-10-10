@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import { UserModel } from "../models/user.model.js";
 
 export const register = async (req: Request, res: Response) => {
   try {
@@ -63,8 +64,6 @@ export const login = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "something went wrong" });
   }
 };
-
-import { UserModel } from "../models/user.model";
 
 export const getMe = async (req: Request, res: Response) => {
   try {

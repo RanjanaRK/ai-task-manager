@@ -1,11 +1,11 @@
 import cors from "cors";
 import dotenv from "dotenv";
 import express from "express";
-import connectDB from "./db/db";
-import aiRouter from "./routes/ai.routes";
-import authRouter from "./routes/auth.routes";
-import taskRouter from "./routes/task.routes";
-import userRouter from "./routes/user.routes";
+import aiRouter from "./routes/ai.routes.js";
+import authRouter from "./routes/auth.routes.js";
+import taskRouter from "./routes/task.routes.js";
+import userRouter from "./routes/user.routes.js";
+import connectDB from "./db/db.js";
 
 // Load environment variables
 dotenv.config();

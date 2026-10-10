@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
-import { aiInteraction } from "../services/gemini.service";
+import { aiInteraction } from "../services/gemini.service.js";
 import {
   createTaskFn,
   deleteTaskFn,
   getTasksFn,
   updateTaskFn,
-} from "../services/task.service";
+} from "../services/task.service.js";
 
 export const chatWithAI = async (req: Request, res: Response) => {
   try {

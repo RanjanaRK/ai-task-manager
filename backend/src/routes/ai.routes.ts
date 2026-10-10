@@ -1,6 +1,6 @@
 import express from "express";
-import { authCheck } from "../middlewares/auth";
-import { chatWithAI } from "../controllers/ai.controller";
+import { authCheck } from "../middlewares/auth.js";
+import { chatWithAI } from "../controllers/ai.controller.js";
 
 const aiRouter = express.Router();
 
