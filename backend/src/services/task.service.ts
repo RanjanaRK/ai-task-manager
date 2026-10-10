@@ -1,16 +1,17 @@
 import { TaskModel } from "../models/task.model";
 
-type Task = {
-  title: string;
-  description?: string;
-  priority?: "low" | "medium" | "high";
-  status?: "todo" | "in-progress" | "completed";
-  category?: "work" | "personal" | "study" | "other";
-  dueDate?: string | null;
-};
 const createTaskFn = async (userId: string, data: any) => {
   try {
-    const task = await TaskModel.create({ ...data, userId });
+    const taskData = { ...data };
+
+    delete taskData.taskCode;
+    delete taskData.userId;
+    delete taskData._id;
+
+    const task = await TaskModel.create({
+      ...taskData,
+      userId,
+    });
 
     return {
       message: "Task created successfully",
@@ -25,21 +26,11 @@ const getTasksFn = async (userId: string, filters: any = {}) => {
   try {
     const { status, priority, category, due } = filters;
 
-    const query: any = {
-      userId,
-    };
+    const query: any = { userId };
 
-    if (status) {
-      query.status = status;
-    }
-
-    if (priority) {
-      query.priority = priority;
-    }
-
-    if (category) {
-      query.category = category;
-    }
+    if (status) query.status = status;
+    if (priority) query.priority = priority;
+    if (category) query.category = category;
 
     if (due) {
       const today = new Date();
@@ -49,26 +40,12 @@ const getTasksFn = async (userId: string, filters: any = {}) => {
       tomorrow.setDate(tomorrow.getDate() + 1);
 
       if (due === "overdue") {
-        query.dueDate = {
-          $lt: today,
-          $ne: null,
-        };
-      }
-
-      if (due === "today") {
-        query.dueDate = {
-          $gte: today,
-          $lt: tomorrow,
-        };
-      }
-
-      if (due === "upcoming") {
-        query.dueDate = {
-          $gte: tomorrow,
-        };
-      }
-
-      if (due === "no-due-date") {
+        query.dueDate = { $lt: today, $ne: null };
+      } else if (due === "today") {
+        query.dueDate = { $gte: today, $lt: tomorrow };
+      } else if (due === "upcoming") {
+        query.dueDate = { $gte: tomorrow };
+      } else if (due === "no-due-date") {
         query.$or = [{ dueDate: null }, { dueDate: { $exists: false } }];
       }
     }
@@ -86,13 +63,33 @@ const getTasksFn = async (userId: string, filters: any = {}) => {
   }
 };
 
-const updateTaskFn = async (userId: string, taskId: string, data: any) => {
+const updateTaskFn = async (userId: string, taskCode: string, data: any) => {
   try {
-    const { taskId: _, ...updateData } = data;
+    const { taskCode: ignoredTaskCode, ...inputData } = data;
+
+    const updateData: any = {};
+
+    const allowedFields = [
+      "title",
+      "description",
+      "priority",
+      "status",
+      "category",
+      "dueDate",
+    ];
+
+    for (const field of allowedFields) {
+      if (inputData[field] !== undefined) {
+        updateData[field] = inputData[field];
+      }
+    }
 
     const task = await TaskModel.findOneAndUpdate(
-      { _id: taskId, userId },
-      updateData,
+      {
+        taskCode: taskCode.trim().toUpperCase(),
+        userId,
+      },
+      { $set: updateData },
       {
         new: true,
         runValidators: true,
@@ -115,9 +112,22 @@ const updateTaskFn = async (userId: string, taskId: string, data: any) => {
   }
 };
 
-const deleteTaskFn = async (userId: string, taskId: string) => {
+const deleteTaskFn = async (userId: string, taskCode: string) => {
   try {
-    const task = await TaskModel.findOneAndDelete({ _id: taskId, userId });
+    const task = await TaskModel.findOne({
+      taskCode: taskCode.trim().toUpperCase(),
+      userId,
+    });
+
+    if (!task) {
+      return {
+        message: "Task not found",
+        task: null,
+      };
+    }
+
+    await TaskModel.deleteOne({ _id: task._id, userId });
+
     return {
       message: "Task deleted successfully",
       task,

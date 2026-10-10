@@ -1,7 +1,17 @@
+import { randomBytes } from "crypto";
 import mongoose from "mongoose";
 
 const taskSchema = new mongoose.Schema(
   {
+    taskCode: {
+      type: String,
+      required: true,
+      unique: true,
+      sparse: true,
+      trim: true,
+      default: () => `TSK-${randomBytes(6).toString("hex").toUpperCase()}`,
+    },
+
     title: {
       type: String,
       required: true,

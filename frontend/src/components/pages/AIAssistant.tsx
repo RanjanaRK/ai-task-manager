@@ -73,10 +73,18 @@ const AIAssistant = () => {
 
       console.log("AI frontend response:", data);
 
+      // const assistantMessage: Message = {
+      //   id: `${Date.now()}-ai`,
+      //   role: "assistant",
+      //   content: data.result?.message || data.message || "Done!",
+      //   task: data.result?.task || undefined,
+      //   tasks: data.result?.tasks || undefined,
+      // };
+
       const assistantMessage: Message = {
         id: `${Date.now()}-ai`,
         role: "assistant",
-        content: data.result?.message || data.message || "Done!",
+        content: data.message || data.result?.message || "Done!",
         task: data.result?.task || undefined,
         tasks: data.result?.tasks || undefined,
       };

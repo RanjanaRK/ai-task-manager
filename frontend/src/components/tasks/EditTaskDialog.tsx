@@ -31,6 +31,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 export type Task = {
   _id: string;
+  taskCode: string;
   title: string;
   description: string;
   priority: "low" | "medium" | "high";
@@ -288,7 +289,7 @@ const EditTaskDialog = ({ task, onTaskUpdated }: EditTaskDialogProps) => {
             <Label htmlFor={`edit-due-date-${task._id}`}>Due Date</Label>
 
             <div className="relative">
-              <CalendarDays className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <CalendarDays className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
 
               <Input
                 id={`edit-due-date-${task._id}`}

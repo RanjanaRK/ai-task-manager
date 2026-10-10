@@ -1,13 +1,12 @@
+import express from "express";
 import { editUserProfile } from "../controllers/user.controller";
 import { authCheck } from "../middlewares/auth";
-
-import express from "express";
 import upload from "../middlewares/upload.middleware";
 
 const userRouter = express.Router();
 
 userRouter.patch(
-  "/profile/edit",
+  "/profile/",
   authCheck,
   upload.single("avatar"),
   editUserProfile,

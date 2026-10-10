@@ -6,6 +6,7 @@ import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
 import Tasks from "./components/pages/Tasks";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import Profile from "./components/pages/Profile";
 
 const App = () => {
   return (
@@ -20,7 +21,7 @@ const App = () => {
           <Route path="/" element={<Dashboard />} />
           <Route path="/tasks" element={<Tasks />} />
           <Route path="/ai-assistant" element={<AIAssistant />} />
-          {/* <Route path="/profile" element={<Profile />} /> */}
+          <Route path="/profile" element={<Profile />} />
         </Route>
       </Route>
 

@@ -29,6 +29,7 @@ import {
 
 import EditTaskDialog from "./EditTaskDialog";
 import type { Task } from "./EditTaskDialog";
+import CopyTaskCode from "./CopyTaskCode";
 
 type TaskListProps = {
   refreshKey?: number;
@@ -154,6 +155,13 @@ const TaskList = ({ refreshKey }: TaskListProps) => {
           >
             <div className="flex items-start justify-between gap-4">
               <div className="min-w-0 flex-1">
+                <div className="mb-2 flex items-center gap-2">
+                  <span className="inline-flex items-center rounded-md border border-indigo-200 bg-indigo-50 px-2.5 py-1 font-mono text-xs font-semibold tracking-wide text-indigo-700 dark:border-indigo-800 dark:bg-indigo-950/50 dark:text-indigo-300">
+                    {task.taskCode || "No code"}
+                  </span>
+
+                  {task.taskCode && <CopyTaskCode taskCode={task.taskCode} />}
+                </div>
                 <h3 className="text-card-foreground truncate text-base font-semibold">
                   {task.title}
                 </h3>
