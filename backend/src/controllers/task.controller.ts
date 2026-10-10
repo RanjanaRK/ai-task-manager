@@ -27,7 +27,7 @@ export const getTasks = async (req: Request, res: Response) => {
   try {
     const userId = req.user?.id;
 
-    const tasks = await TaskModel.find({ userId });
+    const tasks = await TaskModel.find({ userId }).sort({ createdAt: -1 });
 
     return res
       .status(200)
@@ -42,7 +42,10 @@ export const deleteTask = async (req: Request, res: Response) => {
     const userId = req.user?.id;
     const { taskId } = req.params;
 
-    const task = await TaskModel.findByIdAndDelete({ taskId, userId });
+    const task = await TaskModel.findOneAndDelete({
+      _id: taskId,
+      userId,
+    });
 
     if (!task) {
       return res.status(404).json({ message: "Task not found" });
@@ -50,6 +53,7 @@ export const deleteTask = async (req: Request, res: Response) => {
 
     return res.status(200).json({ message: "Task deleted successfully" });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ message: "something went wrong" });
   }
 };

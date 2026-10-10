@@ -5,6 +5,7 @@ import cors from "cors";
 import authRouter from "./routes/auth.routes";
 import userRouter from "./routes/user.routes";
 import aiRouter from "./routes/ai.routes";
+import taskRouter from "./routes/task.routes";
 
 // Load environment variables
 dotenv.config();
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);
+app.use("/api/tasks", taskRouter);
 app.use("/api/ai", aiRouter);
 
 // Test route

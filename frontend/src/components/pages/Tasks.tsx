@@ -1,22 +1,33 @@
+import { useState } from "react";
+
 import CreateTaskDialog from "@/components/tasks/CreateTaskDialog";
+import TaskList from "@/components/tasks/TaskList";
 
 const Tasks = () => {
+  const [refreshKey, setRefreshKey] = useState(0);
+
   const handleTaskCreated = () => {
-    // Later we will fetch tasks again here.
-    console.log("Task created");
+    setRefreshKey((prev) => prev + 1);
   };
 
   return (
-    <div className="p-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">Tasks</h1>
-          <p className="text-muted-foreground">
-            Manage your tasks and stay organized.
-          </p>
+    <div className="bg-background min-h-screen">
+      <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+        {/* Header */}
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-2xl font-bold tracking-tight">Tasks</h1>
+
+            <p className="text-muted-foreground mt-1 text-sm">
+              Manage your tasks and stay organized.
+            </p>
+          </div>
+
+          <CreateTaskDialog onTaskCreated={handleTaskCreated} />
         </div>
 
-        <CreateTaskDialog onTaskCreated={handleTaskCreated} />
+        {/* Task List */}
+        <TaskList refreshKey={refreshKey} />
       </div>
     </div>
   );

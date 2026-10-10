@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { CalendarDays, Loader2, Plus } from "lucide-react";
+import { useEffect, useState } from "react";
+import { CalendarDays, Loader2, Pencil } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -29,6 +29,17 @@ import {
 
 import { Textarea } from "@/components/ui/textarea";
 
+export type Task = {
+  _id: string;
+  title: string;
+  description: string;
+  priority: "low" | "medium" | "high";
+  status: "todo" | "in-progress" | "completed";
+  category: "work" | "personal" | "study" | "other";
+  dueDate: string | null;
+  createdAt: string;
+};
+
 type TaskFormData = {
   title: string;
   description: string;
@@ -38,11 +49,12 @@ type TaskFormData = {
   dueDate: string;
 };
 
-type CreateTaskDialogProps = {
-  onTaskCreated?: () => void;
+type EditTaskDialogProps = {
+  task: Task;
+  onTaskUpdated: () => void;
 };
 
-const CreateTaskDialog = ({ onTaskCreated }: CreateTaskDialogProps) => {
+const EditTaskDialog = ({ task, onTaskUpdated }: EditTaskDialogProps) => {
   const [open, setOpen] = useState(false);
 
   const {
@@ -54,12 +66,14 @@ const CreateTaskDialog = ({ onTaskCreated }: CreateTaskDialogProps) => {
     formState: { errors, isSubmitting },
   } = useForm<TaskFormData>({
     defaultValues: {
-      title: "",
-      description: "",
-      priority: "medium",
-      status: "todo",
-      category: "other",
-      dueDate: "",
+      title: task.title,
+      description: task.description || "",
+      priority: task.priority,
+      status: task.status,
+      category: task.category,
+      dueDate: task.dueDate
+        ? new Date(task.dueDate).toISOString().split("T")[0]
+        : "",
     },
   });
 
@@ -67,17 +81,32 @@ const CreateTaskDialog = ({ onTaskCreated }: CreateTaskDialogProps) => {
   const status = watch("status");
   const category = watch("category");
 
+  useEffect(() => {
+    if (open) {
+      reset({
+        title: task.title,
+        description: task.description || "",
+        priority: task.priority,
+        status: task.status,
+        category: task.category,
+        dueDate: task.dueDate
+          ? new Date(task.dueDate).toISOString().split("T")[0]
+          : "",
+      });
+    }
+  }, [open, task, reset]);
+
   const onSubmit = async (data: TaskFormData) => {
     try {
       const token = localStorage.getItem("token");
 
       if (!token) {
-        toast.error("Please login to create a task.");
+        toast.error("Please login to update the task.");
         return;
       }
 
-      await api.post(
-        "/tasks/add",
+      await api.put(
+        `/tasks/update/${task._id}`,
         {
           title: data.title.trim(),
           description: data.description.trim(),
@@ -93,61 +122,53 @@ const CreateTaskDialog = ({ onTaskCreated }: CreateTaskDialogProps) => {
         },
       );
 
-      toast.success("Task created successfully!");
+      toast.success("Task updated successfully!");
 
-      reset();
       setOpen(false);
-
-      onTaskCreated?.();
+      onTaskUpdated();
     } catch (error: any) {
-      console.error("Create task error:", error);
+      console.error("Update task error:", error);
 
       const message =
         error.response?.data?.message ||
-        "Failed to create task. Please try again.";
+        "Failed to update task. Please try again.";
 
       toast.error(message);
     }
   };
 
-  const handleOpenChange = (value: boolean) => {
-    if (!isSubmitting) {
-      setOpen(value);
-
-      if (!value) {
-        reset();
-      }
-    }
-  };
-
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Button className="gap-2 bg-indigo-600 font-semibold text-white hover:bg-indigo-700">
-          <Plus className="h-4 w-4" />
-          Create Task
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8"
+          title="Edit task"
+        >
+          <Pencil className="h-4 w-4" />
+          <span className="sr-only">Edit task</span>
         </Button>
       </DialogTrigger>
 
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle className="text-xl">Create New Task</DialogTitle>
+          <DialogTitle>Edit Task</DialogTitle>
 
           <DialogDescription>
-            Add a task and keep your work organized.
+            Update the details of your task.
           </DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           {/* Title */}
           <div className="space-y-2">
-            <Label htmlFor="title">
+            <Label htmlFor={`edit-title-${task._id}`}>
               Title <span className="text-red-500">*</span>
             </Label>
 
             <Input
-              id="title"
-              placeholder="e.g. Learn MongoDB aggregation"
+              id={`edit-title-${task._id}`}
               className="h-11"
               disabled={isSubmitting}
               {...register("title", {
@@ -170,11 +191,10 @@ const CreateTaskDialog = ({ onTaskCreated }: CreateTaskDialogProps) => {
 
           {/* Description */}
           <div className="space-y-2">
-            <Label htmlFor="description">Description</Label>
+            <Label htmlFor={`edit-description-${task._id}`}>Description</Label>
 
             <Textarea
-              id="description"
-              placeholder="Add some details about this task..."
+              id={`edit-description-${task._id}`}
               className="min-h-24 resize-none"
               disabled={isSubmitting}
               {...register("description", {
@@ -194,7 +214,6 @@ const CreateTaskDialog = ({ onTaskCreated }: CreateTaskDialogProps) => {
 
           {/* Priority + Status */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {/* Priority */}
             <div className="space-y-2">
               <Label>Priority</Label>
 
@@ -206,20 +225,17 @@ const CreateTaskDialog = ({ onTaskCreated }: CreateTaskDialogProps) => {
                 disabled={isSubmitting}
               >
                 <SelectTrigger className="h-11 w-full">
-                  <SelectValue placeholder="Select priority" />
+                  <SelectValue />
                 </SelectTrigger>
 
                 <SelectContent>
                   <SelectItem value="low">Low</SelectItem>
-
                   <SelectItem value="medium">Medium</SelectItem>
-
                   <SelectItem value="high">High</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
-            {/* Status */}
             <div className="space-y-2">
               <Label>Status</Label>
 
@@ -231,14 +247,12 @@ const CreateTaskDialog = ({ onTaskCreated }: CreateTaskDialogProps) => {
                 disabled={isSubmitting}
               >
                 <SelectTrigger className="h-11 w-full">
-                  <SelectValue placeholder="Select status" />
+                  <SelectValue />
                 </SelectTrigger>
 
                 <SelectContent>
                   <SelectItem value="todo">To Do</SelectItem>
-
                   <SelectItem value="in-progress">In Progress</SelectItem>
-
                   <SelectItem value="completed">Completed</SelectItem>
                 </SelectContent>
               </Select>
@@ -257,16 +271,13 @@ const CreateTaskDialog = ({ onTaskCreated }: CreateTaskDialogProps) => {
               disabled={isSubmitting}
             >
               <SelectTrigger className="h-11 w-full">
-                <SelectValue placeholder="Select category" />
+                <SelectValue />
               </SelectTrigger>
 
               <SelectContent>
                 <SelectItem value="work">Work</SelectItem>
-
                 <SelectItem value="personal">Personal</SelectItem>
-
                 <SelectItem value="study">Study</SelectItem>
-
                 <SelectItem value="other">Other</SelectItem>
               </SelectContent>
             </Select>
@@ -274,32 +285,27 @@ const CreateTaskDialog = ({ onTaskCreated }: CreateTaskDialogProps) => {
 
           {/* Due Date */}
           <div className="space-y-2">
-            <Label htmlFor="dueDate">Due Date</Label>
+            <Label htmlFor={`edit-due-date-${task._id}`}>Due Date</Label>
 
             <div className="relative">
-              <CalendarDays className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+              <CalendarDays className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
 
               <Input
-                id="dueDate"
+                id={`edit-due-date-${task._id}`}
                 type="date"
                 className="h-11 pl-10"
-                min={new Date().toISOString().split("T")[0]}
                 disabled={isSubmitting}
                 {...register("dueDate")}
               />
             </div>
-
-            {errors.dueDate && (
-              <p className="text-sm text-red-500">{errors.dueDate.message}</p>
-            )}
           </div>
 
-          <DialogFooter className="gap-4">
+          <DialogFooter>
             <Button
               type="button"
               variant="outline"
               disabled={isSubmitting}
-              onClick={() => handleOpenChange(false)}
+              onClick={() => setOpen(false)}
             >
               Cancel
             </Button>
@@ -312,12 +318,12 @@ const CreateTaskDialog = ({ onTaskCreated }: CreateTaskDialogProps) => {
               {isSubmitting ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  Creating...
+                  Updating...
                 </>
               ) : (
                 <>
-                  <Plus className="h-4 w-4" />
-                  Create Task
+                  <Pencil className="h-4 w-4" />
+                  Update Task
                 </>
               )}
             </Button>
@@ -328,4 +334,4 @@ const CreateTaskDialog = ({ onTaskCreated }: CreateTaskDialogProps) => {
   );
 };
 
-export default CreateTaskDialog;
+export default EditTaskDialog;

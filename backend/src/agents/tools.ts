@@ -50,7 +50,25 @@ const tools = [
     description: "Get tasks belonging to the authenticated user",
     parameters: {
       type: "object",
-      properties: {},
+      properties: {
+        status: {
+          type: "string",
+          enum: ["todo", "in-progress", "completed"],
+          description: "Filter tasks by status",
+        },
+
+        priority: {
+          type: "string",
+          enum: ["low", "medium", "high"],
+          description: "Filter tasks by priority",
+        },
+
+        category: {
+          type: "string",
+          enum: ["work", "personal", "study", "other"],
+          description: "Filter tasks by category",
+        },
+      },
     },
   },
 

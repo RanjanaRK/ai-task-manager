@@ -44,7 +44,7 @@ const Register = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4 py-10 text-foreground">
+    <div className="bg-background text-foreground flex min-h-screen items-center justify-center px-4 py-10">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="mb-8 flex justify-center">
@@ -64,11 +64,11 @@ const Register = () => {
         </div>
 
         {/* Card */}
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8">
+        <div className="border-border bg-card rounded-2xl border p-6 shadow-sm sm:p-8">
           <div className="mb-6 text-center">
             <h2 className="text-2xl font-bold">Create your account</h2>
 
-            <p className="mt-2 text-sm text-muted-foreground">
+            <p className="text-muted-foreground mt-2 text-sm">
               Start managing your tasks smarter.
             </p>
           </div>
@@ -79,7 +79,7 @@ const Register = () => {
               <Label htmlFor="name">Name</Label>
 
               <div className="relative">
-                <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <User className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
 
                 <Input
                   id="name"
@@ -106,7 +106,7 @@ const Register = () => {
               <Label htmlFor="email">Email</Label>
 
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Mail className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
 
                 <Input
                   id="email"
@@ -133,7 +133,7 @@ const Register = () => {
               <Label htmlFor="password">Password</Label>
 
               <div className="relative">
-                <LockKeyhole className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <LockKeyhole className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
 
                 <Input
                   id="password"
@@ -166,7 +166,7 @@ const Register = () => {
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-6 text-center text-sm">
             Already have an account?{" "}
             <Link
               to="/login"
