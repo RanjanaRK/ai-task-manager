@@ -1,12 +1,11 @@
 import { LockKeyhole, Mail, Sparkles } from "lucide-react";
-import { Link, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import api from "@/lib/axios";
-import { toast } from "react-toastify";
 import { useAuth } from "../auth/AuthContext";
 
 type LoginFormData = {
@@ -63,7 +62,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4 py-10 text-foreground">
+    <div className="bg-background text-foreground flex min-h-screen items-center justify-center px-4 py-10">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="mb-8 flex justify-center">
@@ -83,11 +82,11 @@ const Login = () => {
         </div>
 
         {/* Card */}
-        <div className="rounded-2xl border border-border bg-card p-6 shadow-sm sm:p-8">
+        <div className="border-border bg-card rounded-2xl border p-6 shadow-sm sm:p-8">
           <div className="mb-6 text-center">
             <h2 className="text-2xl font-bold">Welcome back</h2>
 
-            <p className="mt-2 text-sm text-muted-foreground">
+            <p className="text-muted-foreground mt-2 text-sm">
               Sign in to continue to Taskora.
             </p>
           </div>
@@ -98,7 +97,7 @@ const Login = () => {
               <Label htmlFor="email">Email</Label>
 
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Mail className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
 
                 <Input
                   id="email"
@@ -121,7 +120,7 @@ const Login = () => {
               <Label htmlFor="password">Password</Label>
 
               <div className="relative">
-                <LockKeyhole className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <LockKeyhole className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
 
                 <Input
                   id="password"
@@ -150,7 +149,7 @@ const Login = () => {
             </Button>
           </form>
 
-          <p className="mt-6 text-center text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-6 text-center text-sm">
             Don't have an account?{" "}
             <Link
               to="/register"

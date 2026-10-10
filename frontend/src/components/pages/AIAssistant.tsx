@@ -1,4 +1,4 @@
-import { Bot, CalendarDays, Check, Send, Trash2 } from "lucide-react";
+import { Bot, CalendarDays, Check, Send } from "lucide-react";
 import { useState } from "react";
 
 import api from "@/lib/axios";
@@ -106,10 +106,6 @@ const AIAssistant = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleClear = () => {
-    setMessages([welcomeMessage]);
   };
 
   const formatDate = (date: string | null | undefined) => {

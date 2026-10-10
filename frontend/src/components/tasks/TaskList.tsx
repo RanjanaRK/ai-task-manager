@@ -1,10 +1,4 @@
-import {
-  CalendarDays,
-  Loader2,
-  MoreVertical,
-  Pencil,
-  Trash2,
-} from "lucide-react";
+import { CalendarDays, Loader2, MoreVertical, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -27,9 +21,9 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import EditTaskDialog from "./EditTaskDialog";
-import type { Task } from "./EditTaskDialog";
 import CopyTaskCode from "./CopyTaskCode";
+import type { Task } from "./EditTaskDialog";
+import EditTaskDialog from "./EditTaskDialog";
 
 type TaskListProps = {
   refreshKey?: number;
