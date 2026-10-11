@@ -21,7 +21,6 @@ type Message = {
   content?: string;
   task?: TaskData;
   tasks?: TaskData[];
-  action?: "create" | "update" | "delete" | "get";
 };
 
 const welcomeMessage: Message = {
@@ -81,7 +80,6 @@ const AIAssistant = () => {
         content: data.message || data.result?.message || "Done!",
         task: data.result?.task || undefined,
         tasks: data.result?.tasks || undefined,
-        action: data.action || undefined,
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
@@ -189,7 +187,7 @@ const AIAssistant = () => {
               {message.role === "assistant" && (
                 <div className="w-full max-w-2xl">
                   {/* NORMAL AI MESSAGE */}
-                  {/* {message.content && (
+                  {message.content && (
                     <div className="mb-3 flex items-start gap-3">
                       <div className="bg-primary/10 text-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
                         <Bot size={17} />
@@ -199,23 +197,7 @@ const AIAssistant = () => {
                         {message.content}
                       </div>
                     </div>
-                  )} */}
-                  {message.content &&
-                    !(
-                      message.task &&
-                      (message.action === "create" ||
-                        message.action === "update")
-                    ) && (
-                      <div className="mb-3 flex items-start gap-3">
-                        <div className="bg-primary/10 text-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
-                          <Bot size={17} />
-                        </div>
-
-                        <div className="bg-card rounded-2xl border px-4 py-3 text-sm shadow-sm">
-                          {message.content}
-                        </div>
-                      </div>
-                    )}
+                  )}
 
                   {/* CREATED TASK */}
                   {message.task && (
@@ -225,25 +207,9 @@ const AIAssistant = () => {
                           <Check size={16} />
                         </div>
 
-                        {/* <span className="text-sm font-semibold">
+                        <span className="text-sm font-semibold">
                           {message.content}
-                        </span> */}
-                        {message.content &&
-                          !(
-                            message.task &&
-                            (message.action === "create" ||
-                              message.action === "update")
-                          ) && (
-                            <div className="mb-3 flex items-start gap-3">
-                              <div className="bg-primary/10 text-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
-                                <Bot size={17} />
-                              </div>
-
-                              <div className="bg-card rounded-2xl border px-4 py-3 text-sm shadow-sm">
-                                {message.content}
-                              </div>
-                            </div>
-                          )}
+                        </span>
                       </div>
 
                       <h3 className="mb-4 text-lg font-semibold">
