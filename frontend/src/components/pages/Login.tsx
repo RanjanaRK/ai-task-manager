@@ -22,27 +22,6 @@ const Login = () => {
     formState: { errors, isSubmitting },
   } = useForm<LoginFormData>();
 
-  // const onSubmit = async (data: LoginFormData) => {
-  //   try {
-  //     const response = await api.post("/auth/login", data);
-
-  //     const { token } = response.data;
-
-  //     localStorage.setItem("token", token);
-
-  //     toast.success(response.data.message);
-
-  //     navigate("/");
-  //   } catch (error: any) {
-  //     console.error(error);
-
-  //     const message =
-  //       error.response?.data?.message || "Login failed. Please try again.";
-
-  //     toast.error(message);
-  //   }
-  // };
-
   const { refreshUser } = useAuth();
 
   const onSubmit = async (data: LoginFormData) => {
