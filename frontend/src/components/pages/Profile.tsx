@@ -1,11 +1,11 @@
-import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
-import { Camera, Loader2, UserRound } from "lucide-react";
-import { toast } from "react-toastify";
-import api from "@/lib/axios";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import api from "@/lib/axios";
+import { Camera, Loader2, UserRound } from "lucide-react";
+import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
+import { toast } from "react-toastify";
 
 type User = {
   id: string;
@@ -149,7 +149,7 @@ const Profile = () => {
               <h2 className="font-semibold">{name || "Your name"}</h2>
               <p className="text-muted-foreground text-sm">{user?.email}</p>
               <p className="text-muted-foreground mt-1 text-xs">
-                JPG, PNG or other image formats · Max 5 MB
+                JPG, PNG or other image formats · Max 2 MB
               </p>
             </div>
           </div>
