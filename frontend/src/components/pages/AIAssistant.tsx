@@ -3,9 +3,11 @@ import { useState } from "react";
 
 import api from "@/lib/axios";
 import VoiceInput from "../ai/VoiceInput";
+import CopyTaskCode from "../tasks/CopyTaskCode";
 
 type TaskData = {
   _id: string;
+  taskCode?: string;
   title: string;
   description?: string;
   priority: "low" | "medium" | "high";
@@ -72,14 +74,6 @@ const AIAssistant = () => {
       const data = response.data;
 
       console.log("AI frontend response:", data);
-
-      // const assistantMessage: Message = {
-      //   id: `${Date.now()}-ai`,
-      //   role: "assistant",
-      //   content: data.result?.message || data.message || "Done!",
-      //   task: data.result?.task || undefined,
-      //   tasks: data.result?.tasks || undefined,
-      // };
 
       const assistantMessage: Message = {
         id: `${Date.now()}-ai`,
@@ -222,6 +216,20 @@ const AIAssistant = () => {
                       <h3 className="mb-4 text-lg font-semibold">
                         {message.task.title}
                       </h3>
+                      {message.task.taskCode && (
+                        <div className="bg-muted/30 mb-4 flex items-center justify-between rounded-lg border p-3">
+                          <div>
+                            <p className="text-muted-foreground text-xs">
+                              Task Code
+                            </p>
+                            <p className="font-mono text-sm font-semibold">
+                              {message.task.taskCode}
+                            </p>
+                          </div>
+
+                          <CopyTaskCode taskCode={message.task.taskCode} />
+                        </div>
+                      )}
 
                       <div className="space-y-3 text-sm">
                         {/* Priority */}
@@ -316,6 +324,20 @@ const AIAssistant = () => {
                             {/* Task Header */}
                             <div className="flex items-start justify-between gap-4">
                               <div className="min-w-0">
+                                {/* Task Code with Copy Button */}
+                                {task.taskCode && (
+                                  <div className="mt-3 flex items-center gap-2">
+                                    <span className="text-muted-foreground text-xs">
+                                      Task Code:
+                                    </span>
+
+                                    <code className="font-mono text-xs font-semibold">
+                                      {task.taskCode}
+                                    </code>
+
+                                    <CopyTaskCode taskCode={task.taskCode} />
+                                  </div>
+                                )}
                                 <h3 className="font-semibold">{task.title}</h3>
 
                                 {task.description && (

@@ -84,6 +84,10 @@ const tools = [
           type: "string",
           description: "The ID of the task to update",
         },
+        taskCode: {
+          type: "string",
+          description: "The unique task code, for example TSK-1001",
+        },
         title: {
           type: "string",
           description: "New title of the task",
@@ -112,7 +116,7 @@ const tools = [
           description: "New due date in YYYY-MM-DD format",
         },
       },
-      required: ["taskId"],
+      required: ["taskCode"],
     },
   },
 
@@ -128,8 +132,12 @@ const tools = [
           type: "string",
           description: "The ID of the task to delete",
         },
+        taskCode: {
+          type: "string",
+          description: "The unique task code, for example TSK-1001",
+        },
       },
-      required: ["taskId"],
+      required: ["taskCode"],
     },
   },
 ];

@@ -66,6 +66,7 @@ export const chatWithAI = async (req: Request, res: Response) => {
 
     return res.status(200).json({
       success: true,
+      message: result?.message || "Request completed successfully",
       result,
     });
   } catch (error: any) {
