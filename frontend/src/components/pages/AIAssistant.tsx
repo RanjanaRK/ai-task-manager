@@ -189,7 +189,7 @@ const AIAssistant = () => {
               {message.role === "assistant" && (
                 <div className="w-full max-w-2xl">
                   {/* NORMAL AI MESSAGE */}
-                  {message.content && (
+                  {/* {message.content && (
                     <div className="mb-3 flex items-start gap-3">
                       <div className="bg-primary/10 text-primary flex h-8 w-8 shrink-0 items-center justify-center rounded-full">
                         <Bot size={17} />
@@ -199,7 +199,7 @@ const AIAssistant = () => {
                         {message.content}
                       </div>
                     </div>
-                  )}
+                  )} */}
                   {message.content &&
                     !(
                       message.task &&
