@@ -1,6 +1,5 @@
 import { Bot, CalendarDays, Check, Send } from "lucide-react";
 import { useState } from "react";
-
 import api from "@/lib/axios";
 import VoiceInput from "../ai/VoiceInput";
 import CopyTaskCode from "../tasks/CopyTaskCode";
@@ -209,7 +208,7 @@ const AIAssistant = () => {
                         </div>
 
                         <span className="text-sm font-semibold">
-                          Task created successfully
+                          {message.content}
                         </span>
                       </div>
 
