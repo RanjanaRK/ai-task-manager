@@ -115,7 +115,8 @@ Do not invent filter values.
 
 export const aiInteraction = async (message: any) => {
   const interaction = await ai.interactions.create({
-    model: "gemini-3.5-flash",
+    // model: "gemini-3.5-flash",
+    model: "gemini-3.8-flash",
     input: message,
     tools: tools as any,
     system_instruction: instructions,
