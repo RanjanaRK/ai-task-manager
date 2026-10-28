@@ -49,12 +49,12 @@ const Register = () => {
         {/* Logo */}
         <div className="mb-8 flex justify-center">
           <Link to="/" className="flex items-center gap-2.5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 shadow-lg">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-linear-to-br from-indigo-600 to-violet-600 shadow-lg">
               <Sparkles className="h-5 w-5 text-white" />
             </div>
 
             <div>
-              <h1 className="text-xl font-bold">Taskora</h1>
+              <h1 className="text-xl font-bold">TaskFlow</h1>
 
               <p className="text-[8px] font-semibold tracking-[0.18em] text-indigo-600 dark:text-indigo-300">
                 AI TASK MANAGER

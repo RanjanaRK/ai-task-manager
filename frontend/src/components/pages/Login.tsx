@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import api from "@/lib/axios";
 import { useAuth } from "../auth/AuthContext";
+import { toast } from "react-toastify";
 
 type LoginFormData = {
   email: string;
@@ -37,6 +38,9 @@ const Login = () => {
       navigate("/");
     } catch (error: any) {
       console.error(error);
+      const message =
+        error.response.data.message || "Unable to sign in please try again";
+      toast.error(message);
     }
   };
 
@@ -51,7 +55,7 @@ const Login = () => {
             </div>
 
             <div>
-              <h1 className="text-xl font-bold">Taskora</h1>
+              <h1 className="text-xl font-bold">TaskFlow</h1>
 
               <p className="text-[8px] font-semibold tracking-[0.18em] text-indigo-600 dark:text-indigo-300">
                 AI TASK MANAGER
@@ -66,7 +70,7 @@ const Login = () => {
             <h2 className="text-2xl font-bold">Welcome back</h2>
 
             <p className="text-muted-foreground mt-2 text-sm">
-              Sign in to continue to Taskora.
+              Sign in to continue to TaskFlow.
             </p>
           </div>
 
